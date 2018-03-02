@@ -19,14 +19,14 @@ bool IS_CHARGED = true; // статус заряженности аккумул�
 bool IS_STARTED = false; // запуск турбины и начало движения
 
 // резисторы делителя напряжения
-const float r1 = 99700;  // 100K
-const float r2 = 9870;   // 10K
+const float R1 = 100000.0;  // 100K
+const float R2 = 10000.0;;   // 10K
 
 // минимальный допустимый заряд аккумулятора
 const double MIN_BATT_VOLTAGE = 13.0;
 
 // эту константу (typVbg) необходимо откалибровать индивидуально
-const float typVbg = 1.179; // 1.0 -- 1.2
+const float typVbg = 1; // 1.0 -- 1.2
 
 float Vcc = 0.0;
 float curVoltage;
@@ -68,8 +68,7 @@ void setup() {
   // запуск
   digitalWrite(LED_GREEN, HIGH);
   digitalWrite(LED_RED, HIGH);
-
-
+  delay(1000);
   // успешный запуск
   digitalWrite(LED_RED, LOW);
 }
@@ -147,7 +146,7 @@ bool checkBattVoltage () {
   Vcc = readVcc();
   curVoltage= analogRead(V_CONTROL);
   double v  = (curVoltage * Vcc) / 1024.0;
-  double v2 = v / (r2 / (r1 + r2));
+  double v2 = v / (R2 / (R1 + R2));
   if ( v2 < MIN_BATT_VOLTAGE) {
     IS_CHARGED=false;
   }
@@ -258,3 +257,4 @@ float readVcc() {
   return result;
 }
 //--------------------------------
+
